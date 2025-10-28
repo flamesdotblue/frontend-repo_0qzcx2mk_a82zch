@@ -1,23 +1,18 @@
-import Navbar from './components/Navbar';
-import TeamManager from './components/TeamManager';
-import ExerciseFilter from './components/ExerciseFilter';
-import PlaygroundAdmin from './components/PlaygroundAdmin';
-
-function Divider() {
-  return <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent" />;
-}
+import React from 'react';
+import SiteHeader from './components/SiteHeader.jsx';
+import EmptyCanvas from './components/EmptyCanvas.jsx';
+import InfoPanel from './components/InfoPanel.jsx';
+import SiteFooter from './components/SiteFooter.jsx';
 
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900">
-      <Navbar />
-      <main className="flex-1">
-        <TeamManager />
-        <Divider />
-        <ExerciseFilter />
-        <Divider />
-        <PlaygroundAdmin />
+    <div className="flex min-h-screen flex-col bg-neutral-50 text-neutral-900">
+      <SiteHeader />
+      <main className="flex flex-1 flex-col">
+        <EmptyCanvas />
+        <InfoPanel />
       </main>
+      <SiteFooter />
     </div>
   );
 }
