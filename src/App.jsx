@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ExerciseShowcase from './components/ExerciseShowcase';
+import TeamManager from './components/TeamManager';
+import ExerciseFilter from './components/ExerciseFilter';
 import PlaygroundAdmin from './components/PlaygroundAdmin';
 
 function Divider() {
@@ -12,9 +12,9 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-white text-gray-900">
       <Navbar />
       <main className="flex-1">
-        <Hero />
+        <TeamManager />
         <Divider />
-        <ExerciseShowcase />
+        <ExerciseFilter />
         <Divider />
         <PlaygroundAdmin />
       </main>
