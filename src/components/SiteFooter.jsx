@@ -1,10 +1,8 @@
-import React from 'react';
-
 export default function SiteFooter() {
   return (
-    <footer className="mt-10 w-full border-t border-neutral-200/70 bg-white/70">
-      <div className="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-neutral-500">
-        Built on a blank page • Ready for your ideas
+    <footer className="mt-auto w-full border-t bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div className="mx-auto max-w-6xl px-4 py-4 text-sm text-gray-600">
+        <span>Built with Vite + React + Tailwind</span>
       </div>
     </footer>
   );

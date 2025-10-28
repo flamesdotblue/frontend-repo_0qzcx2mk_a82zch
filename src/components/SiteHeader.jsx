@@ -1,15 +1,13 @@
-import React from 'react';
-import { Home } from 'lucide-react';
+import { Home } from "lucide-react";
 
 export default function SiteHeader() {
   return (
-    <header className="w-full border-b border-neutral-200/60 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <div className="flex items-center gap-2">
-          <Home className="h-5 w-5 text-neutral-700" aria-hidden />
-          <span className="font-semibold tracking-tight text-neutral-900">Blank Page</span>
+    <header className="w-full border-b bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div className="mx-auto max-w-6xl px-4 py-4 flex items-center gap-3">
+        <div className="inline-flex items-center justify-center rounded-md border p-2 text-gray-700">
+          <Home className="h-5 w-5" />
         </div>
-        <div className="text-sm text-neutral-500">A clean slate to build on</div>
+        <h1 className="text-lg font-semibold tracking-tight text-gray-900">Blank Starter</h1>
       </div>
     </header>
   );
