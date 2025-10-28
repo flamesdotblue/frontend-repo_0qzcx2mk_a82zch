@@ -43,7 +43,7 @@ export default function Hero() {
           <div className="relative h-[420px] sm:h-[520px] md:h-[560px]">
             <div className="absolute inset-0 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
               <Spline
-                scene="https://prod.spline.design/4cHQr84zOGAHOehh/scene.splinecode"
+                scene="https://prod.spline.design/qQUip0dJPqrrPryE/scene.splinecode"
                 style={{ width: '100%', height: '100%' }}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-white/40" />

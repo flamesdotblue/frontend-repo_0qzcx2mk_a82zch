@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ExerciseShowcase from './components/ExerciseShowcase';
-import Footer from './components/Footer';
+import PlaygroundAdmin from './components/PlaygroundAdmin';
 
 function Divider() {
   return <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent" />;
@@ -15,8 +15,9 @@ export default function App() {
         <Hero />
         <Divider />
         <ExerciseShowcase />
+        <Divider />
+        <PlaygroundAdmin />
       </main>
-      <Footer />
     </div>
   );
 }
