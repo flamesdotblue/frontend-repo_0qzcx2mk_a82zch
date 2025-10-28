@@ -144,6 +144,8 @@ function Playground({ user, interactions, setInteractions }) {
   const [selectedBlind, setSelectedBlind] = useState('alpha');
   const [customEndpoint, setCustomEndpoint] = usePersistentState('custom_endpoint', '');
   const [customKey, setCustomKey] = usePersistentState('custom_key', '');
+  // Persist the new custom model name so users don't need to re-enter it each time
+  const [customModel, setCustomModel] = usePersistentState('custom_model', '');
   const [flagOpen, setFlagOpen] = useState(false);
   const [latestInteraction, setLatestInteraction] = useState(null);
 
@@ -156,12 +158,30 @@ function Playground({ user, interactions, setInteractions }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!user) { alert('Please login to submit.'); return; }
+
+    // Basic validation when using a Custom API: a model name is required
+    if (selectedBlind === 'custom') {
+      if (!customEndpoint) { alert('Please provide a Custom API URL.'); return; }
+      if (!customModel || customModel.trim() === '') { alert('Please provide a Model Name for the Custom API.'); return; }
+    }
+
     setLoading(true);
     setResponse('');
     try {
+      // When selectedBlind === 'custom', we include custom_endpoint, custom_key and model in the payload
+      // so the backend proxy can forward them to the user-specified API.
       const data = await api('/api/generate', {
         method: 'POST',
-        body: { prompt, blind: selectedBlind, custom_endpoint: selectedBlind === 'custom' ? customEndpoint : undefined, custom_key: selectedBlind === 'custom' ? customKey : undefined },
+        body: {
+          prompt,
+          blind: selectedBlind,
+          // Include the Custom API fields only when the custom option is selected
+          custom_endpoint: selectedBlind === 'custom' ? customEndpoint : undefined,
+          custom_key: selectedBlind === 'custom' ? customKey : undefined,
+          // NEW: Pass the model name as `model` for custom calls
+          // Many providers expect a `model` field: e.g., "llama-3.1-8b-instant" or "openai/gpt-oss-20b"
+          model: selectedBlind === 'custom' ? customModel : undefined,
+        },
         query: { user_email: user.email },
         token: user.token,
       });
@@ -213,8 +233,27 @@ function Playground({ user, interactions, setInteractions }) {
             {selectedBlind === 'custom' && (
               <div className="space-y-2">
                 <div className="text-xs text-gray-600">Connect any HTTP API that accepts a JSON body with your prompt.</div>
-                <input className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="https://api.my-model.com/v1/generate" value={customEndpoint} onChange={(e) => setCustomEndpoint(e.target.value)} />
-                <input className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="API Key (optional)" value={customKey} onChange={(e) => setCustomKey(e.target.value)} />
+                {/* Custom API URL input (persisted locally) */}
+                <input
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="https://api.my-model.com/v1/generate"
+                  value={customEndpoint}
+                  onChange={(e) => setCustomEndpoint(e.target.value)}
+                />
+                {/* Optional API key for the custom provider (sent as Bearer by server proxy if provided) */}
+                <input
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="API Key (optional)"
+                  value={customKey}
+                  onChange={(e) => setCustomKey(e.target.value)}
+                />
+                {/* NEW: Model Name input. This value is sent as `model` in the request JSON for custom calls. */}
+                <input
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Model Name (e.g., llama-3.1-8b-instant or openai/gpt-oss-20b)"
+                  value={customModel}
+                  onChange={(e) => setCustomModel(e.target.value)}
+                />
                 <div className="text-xs text-gray-600">Keys stay on your device. The backend only proxies your request for this call.</div>
               </div>
             )}
